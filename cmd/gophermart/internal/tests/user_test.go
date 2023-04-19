@@ -9,7 +9,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	_ "github.com/stretchr/testify/require"
 )
 
 func TestUserRegistration(t *testing.T) {
@@ -82,11 +81,13 @@ func TestUserAuthorization(t *testing.T) {
 	}
 
 	resp := createUser(t, app, User, password)
+	defer resp.Body.Close()
 	require.Equal(t, resp.StatusCode, http.StatusOK)
 
 	for _, testCases := range testTable {
 		t.Run(testCases.name, func(t *testing.T) {
 			response := authUser(t, app, testCases.login, testCases.password)
+			response.Body.Close()
 			assert.Equal(t, response.StatusCode, testCases.statusCode)
 		})
 	}
