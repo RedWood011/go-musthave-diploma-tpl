@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS public.users (
 );
 
 CREATE TABLE IF NOT EXISTS public.withdrawals (
- user_id uuid,
+ user_id uuid REFERENCES users(id) ON DELETE CASCADE,
  order_number TEXT NOT NULL UNIQUE ,
  status TEXT DEFAULT 'NEW',
  processed_at TIMESTAMP,
