@@ -2,6 +2,7 @@ package http
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -63,7 +64,7 @@ func (c *Controller) GetWithdraws() fiber.Handler {
 			ctx.Status(http.StatusInternalServerError)
 			return ctx.JSON(ErrorResponse(err))
 		}
-
+		c.log.Info(fmt.Sprintf("withdrawals: %+v", withdrawals))
 		if len(withdrawals) == 0 {
 			ctx.Status(http.StatusNoContent)
 			return ctx.JSON(ErrorResponse(errors.New("no withdraws")))
