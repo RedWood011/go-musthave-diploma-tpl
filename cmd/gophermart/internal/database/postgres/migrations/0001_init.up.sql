@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS public.users (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
   login VARCHAR(50) NOT NULL UNIQUE,
   password TEXT NOT NULL,
-  balance  DECIMAL (16,2),
-  spend DECIMAL (16,2)
+  balance  DECIMAL (16,2) DEFAULT 0,
+  spend DECIMAL (16,2) DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS public.withdrawals (
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS public.withdrawals (
  order_number TEXT NOT NULL UNIQUE ,
  status TEXT DEFAULT 'NEW',
  processed_at TIMESTAMP,
- sum DECIMAL (16,2)
+ sum DECIMAL (16,2) DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS  public.orders (
@@ -29,5 +29,5 @@ CREATE TABLE IF NOT EXISTS  public.orders (
   number TEXT NOT NULL UNIQUE,
   status TEXT,
   uploaded_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  accrual DECIMAL (16,2)
+  accrual DECIMAL (16,2) DEFAULT 0
 );
