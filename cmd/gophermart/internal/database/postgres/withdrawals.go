@@ -50,11 +50,11 @@ func (r *Repository) GetWithdrawals(ctx context.Context, userID string) ([]entit
 		return nil, err
 	}
 	for rows.Next() {
-		var order entity.Withdraw
-		if err = rows.Scan(&order.UserID, &order.OrderNumber, &order.Sum, &order.ProcessedAt); err != nil {
+		var res entity.Withdraw
+		if err = rows.Scan(&res.UserID, &res.OrderNumber, &res.Sum, &res.ProcessedAt); err != nil {
 			return result, nil
 		}
-		result = append(result, order)
+		result = append(result, res)
 
 	}
 	return result, nil

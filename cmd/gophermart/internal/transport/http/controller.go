@@ -51,6 +51,6 @@ func NewServer(params ServerParams) *fiber.App {
 	app.Get("/api/user/orders", auth.MiddlewareJWT(controller.cfg.Token), controller.GetOrders())
 	app.Get("/api/user/balance", auth.MiddlewareJWT(controller.cfg.Token), controller.GetBalance())
 	app.Post("/api/user/balance/withdraw", auth.MiddlewareJWT(controller.cfg.Token), controller.CreateWithdraw())
-	app.Get("/api/user/balance/withdrawals", auth.MiddlewareJWT(controller.cfg.Token), controller.GetWithdraws())
+	app.Get("/api/user/withdrawals", auth.MiddlewareJWT(controller.cfg.Token), controller.GetWithdraws())
 	return app
 }
