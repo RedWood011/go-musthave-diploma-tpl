@@ -31,8 +31,8 @@ func (o order) toEntity() entity.Order {
 }
 
 func (r *Repository) SaveOrder(ctx context.Context, order entity.Order) error {
-	sqlCreateOrder := `INSERT INTO orders (user_id, number, status, accrual) VALUES ($1, $2, $3, $4)`
-	_, err := r.db.Exec(ctx, sqlCreateOrder, order.UserID, order.Number, order.Status, order.Accrual)
+	sqlCreateOrder := `INSERT INTO orders (user_id, number, status, accrual, uploaded_at) VALUES ($1, $2, $3, $4,$5)`
+	_, err := r.db.Exec(ctx, sqlCreateOrder, order.UserID, order.Number, order.Status, order.Accrual, order.UploadedAt)
 	return err
 }
 
