@@ -76,6 +76,7 @@ loop:
 			}
 		}
 		body, err := io.ReadAll(response.Body)
+		response.Body.Close()
 		if err != nil {
 			s.logger.Info(fmt.Sprintf("Error read body response: UserID = %s, order number =%s", order.UserID, order.Number))
 			continue
@@ -105,12 +106,14 @@ loop:
 	}
 
 	if len(saveOrders) > 0 {
+		s.logger.Info(fmt.Sprintf("UpdateOrders: Save orders: %v", saveOrders))
 		err = s.storage.UpdateOrders(ctx, saveOrders)
 		if err != nil {
 			s.logger.Info("Error save orders")
 		}
 	}
 	if len(usersBalanse) > 0 {
+		s.logger.Info(fmt.Sprintf("UpdateOrders: Save orders: %v", usersBalanse))
 		err = s.storage.UpdateUsersBalance(ctx, usersBalanse)
 		if err != nil {
 			s.logger.Info("Error update user balance")
