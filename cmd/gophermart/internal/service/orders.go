@@ -45,8 +45,8 @@ func (s *Service) GetOrders(ctx context.Context, userID string) ([]entity.Order,
 }
 
 func (s *Service) UpdateOrders(ctx context.Context) {
-	s.logger.Info("UpdateOrders")
 	orders, err := s.storage.GetAllOrders(ctx)
+	s.logger.Info(fmt.Sprintf("UpdateOrders: Get all orders: %v", orders))
 
 	if err != nil {
 		return
