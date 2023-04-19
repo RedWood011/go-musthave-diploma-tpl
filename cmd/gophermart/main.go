@@ -29,7 +29,7 @@ func main() {
 		return
 	}
 
-	serviceHTTP := service.NewService(nil, cfg, log)
+	serviceHTTP := service.NewService(db, cfg, log)
 	c, err := cron.NewCron(serviceHTTP, log)
 	if err != nil {
 		log.Info("failed to init cron")

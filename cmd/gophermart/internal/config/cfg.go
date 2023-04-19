@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	dataBaseURI = "postgres://qwerty:qwerty@localhost:5436/postgres?sslmode=disable"
+	dataBaseURI = "postgres://qwerty:qwerty@localhost:5438/postgres?sslmode=disable"
 
 	timeLive          = 30 * time.Minute
 	accessTokenSecret = "key_gophermarket_secret"
