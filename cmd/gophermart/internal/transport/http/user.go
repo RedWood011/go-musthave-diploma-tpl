@@ -107,7 +107,7 @@ func (c *Controller) UserAuthorization() fiber.Handler {
 
 func (c *Controller) GetBalance() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		balance, err := c.service.GetUserBalance(ctx.Context(), ctx.Get("userID"))
+		balance, err := c.service.GetUserBalance(ctx.Context(), ctx.Locals(c.cfg.Token.UserKey).(string))
 		if err != nil {
 			ctx.Status(http.StatusInternalServerError)
 			return ctx.JSON(ErrorResponse(err))

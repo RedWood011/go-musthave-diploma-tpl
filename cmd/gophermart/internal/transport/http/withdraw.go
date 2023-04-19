@@ -36,11 +36,11 @@ func (c *Controller) CreateWithdraw() fiber.Handler {
 			ctx.Status(http.StatusUnprocessableEntity)
 		}
 		err = c.service.CreateWithdrawal(ctx.Context(), entity.Withdraw{
-			UserID:      ctx.Get("userID"),
+			UserID:      ctx.Locals(c.cfg.Token.UserKey).(string),
 			OrderNumber: withdrawRequest.OrderNumber,
 			Sum:         withdrawRequest.Sum,
 			ProcessedAt: time.Now(),
-		}, ctx.Get("userID"))
+		}, ctx.Locals(c.cfg.Token.UserKey).(string))
 		if err != nil {
 			switch {
 			case errors.Is(err, apperrors.ErrNoMoney):
@@ -58,7 +58,7 @@ func (c *Controller) CreateWithdraw() fiber.Handler {
 
 func (c *Controller) GetWithdraws() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		withdrawals, err := c.service.GetWithdrawals(ctx.Context(), ctx.Get("userID"))
+		withdrawals, err := c.service.GetWithdrawals(ctx.Context(), ctx.Locals(c.cfg.Token.UserKey).(string))
 		if err != nil {
 			ctx.Status(http.StatusInternalServerError)
 			return ctx.JSON(ErrorResponse(err))

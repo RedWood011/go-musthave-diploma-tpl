@@ -35,7 +35,7 @@ func (c *Controller) CreateOrder() fiber.Handler {
 		orderNumber := string(body)
 		order := entity.Order{
 			ID:         uuid.NewString(),
-			UserID:     ctx.Get("userID"),
+			UserID:     ctx.Locals(c.cfg.Token.UserKey).(string),
 			Number:     orderNumber,
 			Status:     "NEW",
 			UploadedAt: time.Now(),
@@ -63,7 +63,7 @@ func (c *Controller) CreateOrder() fiber.Handler {
 
 func (c *Controller) GetOrders() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		orders, err := c.service.GetOrders(ctx.Context(), ctx.Get("userID"))
+		orders, err := c.service.GetOrders(ctx.Context(), ctx.Locals(c.cfg.Token.UserKey).(string))
 		if err != nil {
 			ctx.Status(http.StatusInternalServerError)
 			return ctx.JSON(ErrorResponse(err))
