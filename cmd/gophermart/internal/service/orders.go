@@ -14,6 +14,7 @@ import (
 const (
 	register = "REGISTERED"
 	process  = "PROCESSING"
+	finish   = "PROCESSED"
 )
 
 type responseOrder struct {
@@ -95,7 +96,7 @@ loop:
 		order.Accrual = res.Accrual
 		order.Status = res.Status
 		saveOrders = append(saveOrders, order)
-		if res.Status == process {
+		if res.Status == finish {
 			usersBalanse = append(usersBalanse, entity.User{
 				ID: order.UserID,
 				UserBalance: entity.UserBalance{
