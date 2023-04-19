@@ -37,10 +37,10 @@ func (r *Repository) SaveOrder(ctx context.Context, order entity.Order) error {
 }
 
 func (r *Repository) GetOrder(ctx context.Context, orderNum string) (entity.Order, error) {
-	var order order
+	var res order
 	queryGetOrder := `SELECT id, user_id, number, status, accrual, uploaded_at FROM orders WHERE number = $1`
 	result := r.db.QueryRow(ctx, queryGetOrder, orderNum)
-	if err := result.Scan(&order.ID, &order.Number, &order.UploadedAt, &order.Status, &order.Accrual); err != nil {
+	if err := result.Scan(&res.ID, &res.UserID, &res.Number, &res.Status, &res.Accrual, &res.UploadedAt); err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return entity.Order{}, apperrors.ErrOrderExists
 		}
@@ -48,7 +48,7 @@ func (r *Repository) GetOrder(ctx context.Context, orderNum string) (entity.Orde
 		return entity.Order{}, err
 	}
 
-	return order.toEntity(), nil
+	return res.toEntity(), nil
 
 }
 
