@@ -64,12 +64,12 @@ func (r *Repository) GetUserOrders(ctx context.Context, userUID string) ([]entit
 		return nil, err
 	}
 	for rows.Next() {
-		var order order
-		err = rows.Scan(&order.ID, &order.Number, &order.UploadedAt, &order.Status, &order.Accrual)
+		var res order
+		err = rows.Scan(&res.Number, &res.Status, &res.UploadedAt, &res.Accrual)
 		if err != nil {
 			return nil, err
 		}
-		result = append(result, order.toEntity())
+		result = append(result, res.toEntity())
 	}
 	err = rows.Err()
 	if err != nil {
