@@ -5,6 +5,7 @@ import (
 
 	"github.com/RedWood011/cmd/gophermart/internal/apperrors"
 	"github.com/RedWood011/cmd/gophermart/internal/entity"
+	"github.com/jackc/pgx/v4"
 )
 
 type User struct {
@@ -21,11 +22,15 @@ type UserBalance struct {
 func (r *Repository) GetUser(ctx context.Context, user entity.User) (entity.User, error) {
 	var res User
 
-	sqlCheckUser := `SELECT id FROM users WHERE login = $1;`
+	sqlCheckUser := `SELECT id,login,password FROM users WHERE login = $1;`
 	query := r.db.QueryRow(ctx, sqlCheckUser, user.Login)
-	err := query.Scan(&res.ID)
-	if err != nil {
+	err := query.Scan(&res.ID, &res.Login, &res.Password)
+	if err == pgx.ErrNoRows {
 		return entity.User{}, apperrors.ErrUserNotFound
+	}
+
+	if err != nil {
+		return entity.User{}, err
 	}
 
 	return entity.User{

@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 
 	"github.com/RedWood011/cmd/gophermart/internal/apperrors"
 	"github.com/RedWood011/cmd/gophermart/internal/entity"
@@ -20,7 +21,7 @@ func (s *Service) IdentificationUser(ctx context.Context, user entity.User) erro
 	if err != nil {
 		return err
 	}
-	if !existUser.IsEqual(user) {
+	if !existUser.IsEqual(user) || errors.Is(err, apperrors.ErrUserNotFound) {
 		err = apperrors.ErrAuth
 	}
 	return err

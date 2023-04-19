@@ -1,5 +1,7 @@
 package entity
 
+import "golang.org/x/crypto/bcrypt"
+
 type User struct {
 	ID       string
 	Login    string
@@ -21,5 +23,10 @@ func (u *User) IsValidLogin() bool {
 }
 
 func (u *User) IsEqual(other User) bool {
-	return u.Login == other.Login && u.Password == other.Password
+	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(other.Password))
+	if err != nil {
+		return false
+	}
+
+	return u.Login == other.Login
 }

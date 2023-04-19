@@ -82,6 +82,7 @@ func (c *Controller) UserAuthorization() fiber.Handler {
 			ctx.Status(http.StatusInternalServerError)
 			return ctx.JSON(ErrorResponse(apperrors.ErrAuth))
 		}
+
 		err := c.service.IdentificationUser(ctx.Context(), user)
 
 		if err != nil {
