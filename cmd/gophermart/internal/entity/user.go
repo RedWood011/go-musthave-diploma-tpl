@@ -13,11 +13,11 @@ type UserBalance struct {
 }
 
 func (u *User) IsValidPassword() bool {
-	return u.Password != "" && len(u.Password) > 8
+	return u.Password != "" && len(u.Password) > 4
 }
 
 func (u *User) IsValidLogin() bool {
-	return u.Password != "" && len(u.Login) > 8
+	return u.Password != "" && len(u.Login) > 4
 }
 
 func (u *User) IsEqual(other User) bool {
