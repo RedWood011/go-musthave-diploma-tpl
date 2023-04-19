@@ -62,7 +62,11 @@ loop:
 			if err != nil || response.StatusCode != http.StatusOK {
 				switch {
 				case i == s.cfg.CountRepetitionClient:
-					s.logger.Info(fmt.Sprintf("Error request: UserID = %s, order number =%s, statusCode = %d", order.UserID, order.Number, response.StatusCode))
+					var code int
+					if response != nil {
+						code = response.StatusCode
+					}
+					s.logger.Info(fmt.Sprintf("Error request: UserID = %s, order number =%s, statusCode = %d", order.UserID, order.Number, code))
 					continue loop
 
 				default:

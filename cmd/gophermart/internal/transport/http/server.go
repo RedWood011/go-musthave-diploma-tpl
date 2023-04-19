@@ -11,7 +11,7 @@ type ServerInterface interface {
 	GetOrders(ctx context.Context, userID string) ([]entity.Order, error)
 	GetWithdrawals(ctx context.Context, userID string) ([]entity.Withdraw, error)
 	CreateWithdrawal(ctx context.Context, withdraw entity.Withdraw, userID string) error
-	CreateUser(ctx context.Context, user entity.User) error
+	CreateUser(ctx context.Context, user entity.User) (string, error)
 	IdentificationUser(ctx context.Context, user entity.User) error
 	GetBalance(ctx context.Context, userID string) (entity.UserBalance, error)
 }

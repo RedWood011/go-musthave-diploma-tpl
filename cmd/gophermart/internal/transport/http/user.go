@@ -83,7 +83,7 @@ func (c *Controller) UserAuthorization() fiber.Handler {
 			return ctx.JSON(ErrorResponse(apperrors.ErrAuth))
 		}
 
-		err := c.service.IdentificationUser(ctx.Context(), user)
+		userID, err := c.service.IdentificationUser(ctx.Context(), user)
 
 		if err != nil {
 			switch {
@@ -95,6 +95,7 @@ func (c *Controller) UserAuthorization() fiber.Handler {
 				return ctx.JSON(ErrorResponse(err))
 			}
 		}
+		user.ID = userID
 		token, err := auth.CreateTokenJWT(user, c.cfg.Token)
 		if err != nil {
 			ctx.Status(http.StatusInternalServerError)

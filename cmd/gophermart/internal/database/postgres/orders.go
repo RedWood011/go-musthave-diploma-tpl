@@ -82,14 +82,14 @@ func (r *Repository) GetUserOrders(ctx context.Context, userUID string) ([]entit
 func (r *Repository) GetAllOrders(ctx context.Context) ([]entity.Order, error) {
 	var result []entity.Order
 	var query string
-	query = "'select user_id,  number, uploaded_at, status, accrual  from orders where status='NEW' OR status='PROCESSING'"
+	query = " select user_id, number, uploaded_at, status, accrual  from orders where status IN ('NEW','PROCESSING') "
 	rows, err := r.db.Query(ctx, query)
 	if err != nil {
 		return nil, err
 	}
 	for rows.Next() {
 		var res order
-		err = rows.Scan(&res.ID, &res.UserID, &res.Number, &res.UploadedAt, res.Status, &res.Accrual)
+		err = rows.Scan(&res.UserID, &res.Number, &res.UploadedAt, &res.Status, &res.Accrual)
 		if err != nil {
 			return nil, err
 		}

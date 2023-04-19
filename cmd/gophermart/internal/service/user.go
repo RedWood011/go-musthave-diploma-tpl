@@ -16,15 +16,15 @@ func (s *Service) CreateUser(ctx context.Context, user entity.User) error {
 	return err
 }
 
-func (s *Service) IdentificationUser(ctx context.Context, user entity.User) error {
+func (s *Service) IdentificationUser(ctx context.Context, user entity.User) (string, error) {
 	existUser, err := s.storage.GetUser(ctx, user)
 	if err != nil {
-		return err
+		return "", err
 	}
 	if !existUser.IsEqual(user) || errors.Is(err, apperrors.ErrUserNotFound) {
 		err = apperrors.ErrAuth
 	}
-	return err
+	return existUser.ID, err
 }
 func (s *Service) GetUserBalance(ctx context.Context, userID string) (entity.UserBalance, error) {
 	return s.storage.GetUserBalance(ctx, userID)
