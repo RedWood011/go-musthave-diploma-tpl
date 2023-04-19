@@ -58,7 +58,8 @@ loop:
 	for _, order := range orders {
 		var response *http.Response
 		for i := 0; i <= s.cfg.CountRepetitionClient; i++ {
-			response, err = http.Get(s.cfg.AccrualSystemAddress + order.Number)
+			url := fmt.Sprintf("%s/api/orders/%s", s.cfg.AccrualSystemAddress, order.Number)
+			response, err = http.Get(url)
 			if err != nil || response.StatusCode != http.StatusOK {
 				switch {
 				case i == s.cfg.CountRepetitionClient:
