@@ -46,8 +46,10 @@ func (s *Service) GetOrders(ctx context.Context, userID string) ([]entity.Order,
 
 func (s *Service) UpdateOrders(ctx context.Context) {
 	orders, err := s.storage.GetAllOrders(ctx)
+
 	if err != nil {
 		return
+		s.logger.Info(fmt.Sprintf("Error get all orders: %s", err.Error()))
 	}
 	saveOrders := make([]entity.Order, 0, len(orders))
 	usersBalanse := make([]entity.User, 0, len(orders))
