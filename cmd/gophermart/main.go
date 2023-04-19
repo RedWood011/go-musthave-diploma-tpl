@@ -57,5 +57,5 @@ func main() {
 		c.Run(ctx)
 	}()
 
-	server.Listen(":3000")
+	server.Listen(cfg.ServerAddress)
 }
