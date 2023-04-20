@@ -26,17 +26,16 @@ type responseOrder struct {
 func (s *Service) CreateOrder(ctx context.Context, order entity.Order) error {
 	err := s.storage.SaveOrder(ctx, order)
 	if err != nil && isUniqueViolationError(err) {
-		existOrder, err := s.storage.GetOrder(ctx, order.Number)
+		existOrder, ierr := s.storage.GetOrder(ctx, order.Number)
 		if err != nil {
-			s.logger.Info(fmt.Sprintf("CreateOrder: Save order: %v", err.Error()))
-			return err
+			s.logger.Info(fmt.Sprintf("CreateOrder: Save order: %v", ierr))
+			return ierr
 		}
 		if existOrder.UserID != order.UserID {
-			s.logger.Info(fmt.Sprintf("CreateOrder: Save order: %v", err.Error()))
 			return apperrors.ErrOrderOwnedByAnotherUser
 		}
 	}
-	s.logger.Info(fmt.Sprintf("CreateOrder: Save order: %v", err.Error()))
+	s.logger.Info(fmt.Sprintf("CreateOrder: Save order: %v", err))
 	return err
 }
 
