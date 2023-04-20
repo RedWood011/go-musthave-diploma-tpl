@@ -9,6 +9,12 @@ import (
 	"github.com/jackc/pgx/v4"
 )
 
+type withdraw struct {
+	OrderNumber string    `json:"order_number"`
+	Sum         float32   `json:"sum"`
+	ProcessedAt time.Time `json:"processed_at"`
+}
+
 func (r *Repository) SaveWithdraw(ctx context.Context, withdraw entity.Withdraw, userID string) error {
 	tx, err := r.db.Begin(ctx)
 	if err != nil {
@@ -50,11 +56,11 @@ func (r *Repository) GetWithdrawals(ctx context.Context, userID string) ([]entit
 		return nil, err
 	}
 	for rows.Next() {
-		var res entity.Withdraw
-		if err = rows.Scan(&res.UserID, &res.OrderNumber, &res.Sum, &res.ProcessedAt); err != nil {
-			return result, nil
+		var res withdraw
+		if err = rows.Scan(&res.OrderNumber, &res.Sum, &res.ProcessedAt); err != nil {
+			return nil, err
 		}
-		result = append(result, res)
+		result = append(result, entity.Withdraw{OrderNumber: res.OrderNumber, Sum: res.Sum, ProcessedAt: res.ProcessedAt})
 
 	}
 	return result, nil

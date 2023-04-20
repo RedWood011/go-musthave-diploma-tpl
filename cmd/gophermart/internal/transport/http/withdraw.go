@@ -64,7 +64,7 @@ func (c *Controller) GetWithdraws() fiber.Handler {
 			ctx.Status(http.StatusInternalServerError)
 			return ctx.JSON(ErrorResponse(err))
 		}
-		c.log.Info(fmt.Sprintf("withdrawals: %+v", withdrawals))
+		c.log.Info(fmt.Sprintf("withdrawals: %+v, len %d", withdrawals, len(withdrawals)))
 		if len(withdrawals) == 0 {
 			ctx.Status(http.StatusNoContent)
 			return ctx.JSON(ErrorResponse(errors.New("no withdraws")))
