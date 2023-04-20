@@ -9,6 +9,7 @@ import (
 	"github.com/RedWood011/cmd/gophermart/internal/config"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
+
 	"github.com/stretchr/testify/require"
 )
 
@@ -52,7 +53,6 @@ func TestMiddlewareJWT(t *testing.T) {
 	req.Header.Set("Authorization", "Bearer "+tokenString)
 
 	resp, err = app.Test(req)
-	defer resp.Body.Close()
 	require.NoError(t, err)
 
 	if resp.StatusCode != http.StatusOK {
@@ -62,6 +62,7 @@ func TestMiddlewareJWT(t *testing.T) {
 	var data fiber.Map
 	err = json.NewDecoder(resp.Body).Decode(&data)
 	require.NoError(t, err)
+	resp.Body.Close()
 	if message := data["message"].(string); message != "Hello, 123" {
 		t.Errorf("Expected message 'Hello, 123' but got '%s'", message)
 	}

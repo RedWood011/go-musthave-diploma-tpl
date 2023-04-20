@@ -51,6 +51,7 @@ func TestUserRegistration(t *testing.T) {
 		t.Run(testCases.name, func(t *testing.T) {
 			response := createUser(t, app, testCases.login, testCases.password)
 			assert.Equal(t, response.StatusCode, testCases.statusCode)
+			response.Body.Close()
 		})
 	}
 }
