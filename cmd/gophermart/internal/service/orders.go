@@ -69,6 +69,7 @@ loop:
 						code = response.StatusCode
 					}
 					s.logger.Info(fmt.Sprintf("Error request: UserID = %s, order number =%s, statusCode = %d", order.UserID, order.Number, code))
+					response.Body.Close()
 					continue loop
 
 				default:
@@ -77,7 +78,7 @@ loop:
 			}
 		}
 		body, err := io.ReadAll(response.Body)
-		defer response.Body.Close()
+		response.Body.Close()
 		if err != nil {
 			s.logger.Info(fmt.Sprintf("Error read body response: UserID = %s, order number =%s", order.UserID, order.Number))
 			continue
