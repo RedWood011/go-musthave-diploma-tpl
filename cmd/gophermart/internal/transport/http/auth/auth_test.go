@@ -33,6 +33,7 @@ func TestMiddlewareJWT(t *testing.T) {
 	req.Header.Set("Authorization", "Bearer invalidtoken")
 
 	resp, err := app.Test(req)
+	resp.Body.Close()
 	require.NoError(t, err)
 
 	if resp.StatusCode != http.StatusUnauthorized {
@@ -51,6 +52,7 @@ func TestMiddlewareJWT(t *testing.T) {
 	req.Header.Set("Authorization", "Bearer "+tokenString)
 
 	resp, err = app.Test(req)
+	defer resp.Body.Close()
 	require.NoError(t, err)
 
 	if resp.StatusCode != http.StatusOK {

@@ -44,6 +44,7 @@ func TestUserRegistration(t *testing.T) {
 	}
 
 	resp := createUser(t, app, existUser, password)
+	defer resp.Body.Close()
 	require.Equal(t, resp.StatusCode, http.StatusOK)
 
 	for _, testCases := range testTable {
