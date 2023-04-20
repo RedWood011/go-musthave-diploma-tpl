@@ -19,7 +19,7 @@ func (u *User) IsValidPassword() bool {
 }
 
 func (u *User) IsValidLogin() bool {
-	return u.Password != "" && len(u.Login) > 4
+	return u.Password != "" && len(u.Login) > 2
 }
 
 func (u *User) IsEqual(other User) bool {
