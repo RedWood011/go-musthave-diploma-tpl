@@ -1,4 +1,4 @@
-package Orders
+package orders
 
 import (
 	"context"

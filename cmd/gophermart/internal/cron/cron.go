@@ -3,7 +3,7 @@ package cron
 import (
 	"context"
 
-	"github.com/RedWood011/cmd/gophermart/internal/cron/Orders"
+	"github.com/RedWood011/cmd/gophermart/internal/cron/orders"
 	"github.com/RedWood011/cmd/gophermart/internal/service"
 	"github.com/robfig/cron/v3"
 	"golang.org/x/exp/slog"
@@ -19,7 +19,7 @@ func NewCron(
 ) (*Cron, error) {
 	c := cron.New()
 
-	_, err := c.AddJob("@every 3s", Orders.NewAOrderCronJob(logger, service))
+	_, err := c.AddJob("@every 3s", orders.NewAOrderCronJob(logger, service))
 	if err != nil {
 		return nil, err
 	}

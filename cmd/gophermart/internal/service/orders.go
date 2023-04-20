@@ -50,8 +50,8 @@ func (s *Service) UpdateOrders(ctx context.Context) {
 	s.logger.Info(fmt.Sprintf("UpdateOrders: Get all orders: %v", orders))
 
 	if err != nil {
-		return
 		s.logger.Info(fmt.Sprintf("Error get all orders: %s", err.Error()))
+		return
 	}
 	saveOrders := make([]entity.Order, 0, len(orders))
 	usersBalanse := make([]entity.User, 0, len(orders))
