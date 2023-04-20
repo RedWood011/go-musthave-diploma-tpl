@@ -61,6 +61,7 @@ loop:
 		for i := 0; i <= s.cfg.CountRepetitionClient; i++ {
 			url := fmt.Sprintf("%s/api/orders/%s", s.cfg.AccrualSystemAddress, order.Number)
 			response, err = http.Get(url)
+			response.Body.Close()
 			if err != nil || response.StatusCode != http.StatusOK {
 				switch {
 				case i == s.cfg.CountRepetitionClient:
@@ -77,7 +78,6 @@ loop:
 			}
 		}
 		body, err := io.ReadAll(response.Body)
-		response.Body.Close()
 		if err != nil {
 			s.logger.Info(fmt.Sprintf("Error read body response: UserID = %s, order number =%s", order.UserID, order.Number))
 			continue
