@@ -34,7 +34,7 @@ func (s *Service) CreateOrder(ctx context.Context, order entity.Order) error {
 			return apperrors.ErrOrderOwnedByAnotherUser
 		}
 	}
-
+	s.logger.Info(fmt.Sprintf("CreateOrder: Save order: %v", err.Error()))
 	return err
 }
 
