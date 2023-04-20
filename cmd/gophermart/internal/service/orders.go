@@ -67,9 +67,10 @@ loop:
 					var code int
 					if response != nil {
 						code = response.StatusCode
+						response.Body.Close()
 					}
 					s.logger.Info(fmt.Sprintf("Error request: UserID = %s, order number =%s, statusCode = %d", order.UserID, order.Number, code))
-					response.Body.Close()
+
 					continue loop
 
 				default:

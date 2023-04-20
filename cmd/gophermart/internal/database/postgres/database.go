@@ -3,6 +3,8 @@ package postgres
 import (
 	"context"
 	"fmt"
+	"path/filepath"
+	"runtime"
 	"strconv"
 	"time"
 
@@ -48,7 +50,10 @@ func NewDatabase(ctx context.Context, dsn string, maxAttempts string) (db *Repos
 }
 
 func startMigration(dsn string) (bool, error) {
-	m, err := migrate.New("file://cmd/gophermart/internal/database/postgres/migrations", dsn)
+	_, b, _, _ := runtime.Caller(0)
+	basePath := filepath.Dir(b)
+	migrationsPath := basePath + "/migrations"
+	m, err := migrate.New("file://"+migrationsPath, dsn)
 	if err != nil {
 		if err != migrate.ErrNoChange {
 			return false, err
