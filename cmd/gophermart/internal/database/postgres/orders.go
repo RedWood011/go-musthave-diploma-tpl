@@ -5,7 +5,6 @@ import (
 	"errors"
 	"time"
 
-	"github.com/RedWood011/cmd/gophermart/internal/apperrors"
 	"github.com/RedWood011/cmd/gophermart/internal/entity"
 	"github.com/jackc/pgx/v4"
 )
@@ -42,7 +41,7 @@ func (r *Repository) GetOrder(ctx context.Context, orderNum string) (entity.Orde
 	result := r.db.QueryRow(ctx, queryGetOrder, orderNum)
 	if err := result.Scan(&res.ID, &res.UserID, &res.Number, &res.Status, &res.Accrual, &res.UploadedAt); err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return entity.Order{}, apperrors.ErrOrderExists
+			return entity.Order{}, err
 		}
 
 		return entity.Order{}, err

@@ -27,13 +27,14 @@ func (s *Service) CreateOrder(ctx context.Context, order entity.Order) error {
 	err := s.storage.SaveOrder(ctx, order)
 	if err != nil && isUniqueViolationError(err) {
 		existOrder, ierr := s.storage.GetOrder(ctx, order.Number)
-		if err != nil {
+		if ierr != nil {
 			s.logger.Info(fmt.Sprintf("CreateOrder: Save order: %v", ierr))
 			return ierr
 		}
 		if existOrder.UserID != order.UserID {
 			return apperrors.ErrOrderOwnedByAnotherUser
 		}
+		return apperrors.ErrOrderExists
 	}
 	s.logger.Info(fmt.Sprintf("CreateOrder: Save order: %v", err))
 	return err
