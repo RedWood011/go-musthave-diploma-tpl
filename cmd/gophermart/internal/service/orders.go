@@ -30,11 +30,9 @@ func (s *Service) CreateOrder(ctx context.Context, order entity.Order) error {
 		if err != nil {
 			return err
 		}
-
-		if existOrder.UserID == order.UserID {
-			return err
+		if existOrder.UserID != order.UserID {
+			return apperrors.ErrOrderOwnedByAnotherUser
 		}
-		err = apperrors.ErrOrderOwnedByAnotherUser
 	}
 
 	return err
