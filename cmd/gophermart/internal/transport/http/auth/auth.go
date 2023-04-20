@@ -25,6 +25,12 @@ func CreateTokenJWT(user entity.User, cfg config.TokenConfig) (string, error) {
 
 func MiddlewareJWT(cfg config.TokenConfig) fiber.Handler {
 	return func(c *fiber.Ctx) error {
+		auth := c.Get("Authorization")
+		if auth == "" {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Invalide Token",
+			})
+		}
 		tokenString := c.Get("Authorization")[7:]
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 
